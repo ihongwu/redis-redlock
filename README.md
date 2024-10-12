@@ -1,5 +1,5 @@
 # PHP版本redlock
-### PHP版本的Redis红锁，已支持一下特性：  
+### PHP版本的Redis红锁，已支持以下特性：  
 - 单机Redis
 - 多机版Redis
 - 传入Redis配置
