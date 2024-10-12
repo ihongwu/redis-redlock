@@ -25,6 +25,9 @@ git@github.com:ihongwu/redis-redlock.git
 
 #### 常规使用：传入Redis配置信息
 ```php
+
+use RedisLock\RedisRedLock;
+
 $servers = [
     ['host' => '127.0.0.1', 'port' => 6391, 'password' => '88888888'],
     ['host' => '127.0.0.1', 'port' => 6392, 'password' => '88888888'],
@@ -97,6 +100,9 @@ return [
 ```
 ##### 
 ```php
+
+use RedisLock\RedisRedLock;
+
 // 不想传入连接池的，也可以直接传入Redis配置信息
 $redis1 = Redis::connection('6391')->client();
 $redis2 = Redis::connection('6392')->client();
