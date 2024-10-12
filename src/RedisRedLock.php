@@ -1,4 +1,5 @@
 <?php
+namespace RedisLock;
 
 class RedisRedLock
 {
