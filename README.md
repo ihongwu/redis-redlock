@@ -104,6 +104,7 @@ return [
 use RedisLock\RedisRedLock;
 
 // 不想传入连接池的，也可以直接传入Redis配置信息
+// 注意：如传入Redis对象，请自行判断是否连接成功，连接成功的对象才可以加入到$servers中
 $redis1 = Redis::connection('6391')->client();
 $redis2 = Redis::connection('6392')->client();
 $redis3 = Redis::connection('6393')->client();
