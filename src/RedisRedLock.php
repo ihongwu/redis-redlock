@@ -58,7 +58,7 @@ class RedisRedLock
      * @param int $lockTtl 锁超时时间，默认30秒
      * @param int $retryCount 重试次数，默认200次
      * @param float $connectTimeout  连接超时时间，默认50毫秒
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct($servers, $resourceKey, $lockTtl = 30, $retryCount = 200, $connectTimeout = 0.05)
     {
@@ -68,18 +68,14 @@ class RedisRedLock
         // 检查服务器信息
         $this->checkRedisConfig($servers);
 
-        // 服务器数量
-        $servercount = count($servers);
-        if ($servercount % 2 != 1) {
-            throw new \Exception('The number of Redis servers needs to be an odd number');
-        }
-
         $this->resourceKey = $resourceKey; // 锁定的资源 key 在实例化时传入
         $this->lockTtl = $lockTtl;
         $this->lockToken = uniqid('',true) . '.' . rand(100000,999999); // 每个实例持有唯一的 token
         $this->retryCount = $retryCount; // 重试获取锁的次数
         $this->connectTimeout = $connectTimeout; // 设置 Redis 连接超时时间
 
+        // 服务器数量
+        $servercount = count($servers);
         // 达到多数实例的锁定数目
         $this->quorum = floor($servercount / 2) + 1;
 
@@ -90,7 +86,7 @@ class RedisRedLock
     /**
      * 检查传入的Redis配置信息或示例是否重复
      * @param array $servers Redis配置/实例数组
-     * @throws Exception
+     * @throws \Exception
      */
     private function checkRedisConfig($servers){
         $redisconfigs = [];
@@ -116,7 +112,7 @@ class RedisRedLock
     /**
      * 初始化Redis
      * @param array $servers Redis配置/实例数组
-     * @throws Exception
+     * @throws \Exception
      */
     private function initInstances($servers){
         // 初始化 Redis 客户端
@@ -133,7 +129,9 @@ class RedisRedLock
                     // throw new \Exception("Unable to connect to Redis instance: {$server['host']}:{$server['port']} Error message:" . $e->getMessage());
                 }
             } else {
-                $this->redisInstances[] = $server;
+                if ($server->isConnected()) {
+                    $this->redisInstances[] = $server;
+                }
             }
         }
 

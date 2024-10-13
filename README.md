@@ -104,12 +104,17 @@ return [
 use RedisLock\RedisRedLock;
 
 // 不想传入连接池的，也可以直接传入Redis配置信息
-// 注意：如传入Redis对象，请自行判断是否连接成功，连接成功的对象才可以加入到$servers中
-$redis1 = Redis::connection('6391')->client();
-$redis2 = Redis::connection('6392')->client();
-$redis3 = Redis::connection('6393')->client();
-
-$servers = [$redis1,$redis2,$redis3];
+// 连接成功的redis实例，才给锁对象使用
+$servers = [];
+try {
+    $servers[] = Redis::connection('6391')->client();
+} catch (\Exception $e) {}
+try {
+    $servers[] = Redis::connection('6392')->client();
+} catch(\Exception $e) {}
+try {
+    $servers[] = Redis::connection('6393')->client();
+} catch(\Exception $e) {}
 
 $resourceKey = 'my_distributed_lock';
 
@@ -138,4 +143,5 @@ try {
 
 ### 声明
 1、该库已通过库存200，并发1000的多轮测试并正常工作，但并不意味这它100%没问题  
-2、如发现问题，请随时提issues或提交更正代码，在生产环境中使用它之前，请务必了解它的工作原理
+2、传入的redis配置/实例数理论上为奇数，但考虑到常驻内存框架自行判断连接后，最后可能达不到奇数的要求，所以只要可用连接数能达到N / 2 + 1即可  
+3、如发现问题，请随时提issues或提交更正代码，在生产环境中使用它之前，请务必了解它的工作原理

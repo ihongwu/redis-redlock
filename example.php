@@ -1,6 +1,7 @@
 <?php
-require_once 'src/RedisRedLock.php';
+use RedisLock\RedisRedLock;
 
+require_once 'src/RedisRedLock.php';
 
 // 示例用法
 $servers = [
