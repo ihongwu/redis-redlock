@@ -28,6 +28,10 @@ git@github.com:ihongwu/redis-redlock.git
 
 use RedisLock\RedisRedLock;
 
+// 有自动加载则不需要
+require_once 'src/RedisRedLock.php';
+
+
 $servers = [
     ['host' => '127.0.0.1', 'port' => 6391, 'password' => '88888888'],
     ['host' => '127.0.0.1', 'port' => 6392, 'password' => '88888888'],
