@@ -1,6 +1,6 @@
 {
   "name": "ihongwu/redis-redlock",
-  "description": "PHP版本的Redis红锁，支持单机Redis，支持传入Redis配置或者Redis对象",
+  "description": "PHP版本的Redis红锁，支持单机/多机Redis，支持传入Redis配置或者Redis对象等特性",
   "license": "MIT",
   "authors": [
     {
