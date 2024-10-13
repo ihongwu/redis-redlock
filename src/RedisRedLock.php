@@ -171,7 +171,7 @@ class RedisRedLock
 
         foreach ($this->redisInstances as $redis) {
             $redis->eval($luaScript, [$this->resourceKey, $this->lockToken], 1);
-            $redis->close();
+            // 不用close redis，常驻内存框架会自动管理，非常住内存连接关闭会自动close
         }
         return true;
     }
